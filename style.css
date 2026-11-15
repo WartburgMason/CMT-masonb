@@ -840,3 +840,66 @@ tbody tr:last-child td {
         flex-wrap: wrap;
     }
 }
+
+/* Maintenance Form */
+.maintenance-form-container {
+    display: none;
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(20, 40, 70, 0.05);
+}
+
+.maintenance-form-container h3 {
+    font-size: 17px;
+    margin-bottom: 22px;
+}
+
+.maintenance-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group select {
+    padding: 12px;
+    border: 1px solid #dce5ef;
+    border-radius: 6px;
+    font-size: 13px;
+    background-color: white;
+    outline: none;
+    width: 100%;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #3289d8;
+    box-shadow: 0 0 0 2px rgba(50, 137, 216, 0.1);
+}
+
+.form-group input.invalid,
+.form-group select.invalid {
+    border: 1px solid #d64545;
+    background-color: #fff8f8;
+}
+
+.empty-maintenance {
+    display: none;
+    text-align: center;
+    padding: 25px 10px;
+    color: #929dad;
+    font-size: 13px;
+}
+
+/* Maintenance Table */
+#maintenanceTableBody tr:hover {
+    background-color: #f8faff;
+}
+
+@media (max-width: 600px) {
+    .maintenance-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

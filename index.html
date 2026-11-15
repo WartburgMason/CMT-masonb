@@ -141,70 +141,41 @@
 
     <!-- Add Vehicle Form -->
     <div class="vehicle-form-container" id="vehicleFormContainer">
+    <h3 id="vehicleFormTitle">Add Vehicle</h3>
 
-        <h3>Add a New Vehicle</h3>
+    <form id="vehicleForm">
+        <input type="hidden" id="vehicleID">
 
-        <form id="vehicleForm">
-
-            <div class="vehicle-form-grid">
-
-                <div class="form-group">
-                    <label for="vehicleMake">Make</label>
-                    <input
-                        type="text"
-                        id="vehicleMake"
-                        placeholder="Example: Toyota"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="vehicleModel">Model</label>
-                    <input
-                        type="text"
-                        id="vehicleModel"
-                        placeholder="Example: Camry"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="vehicleYear">Year</label>
-                    <input
-                        type="number"
-                        id="vehicleYear"
-                        placeholder="Example: 2022"
-                        min="1886"
-                        max="2100"
-                        required
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="vehicleMileage">Current Mileage</label>
-                    <input
-                        type="number"
-                        id="vehicleMileage"
-                        placeholder="Example: 35200"
-                        min="0"
-                        required
-                    >
-                </div>
-
+        <div class="vehicle-form-grid">
+            <div class="form-group">
+                <label for="vehicleMake">Make</label>
+                <input type="text" id="vehicleMake">
+                <span class="error-message" id="makeError"></span>
             </div>
 
-            <div class="form-buttons">
-                <button type="submit" class="primary-button">
-                    Save Vehicle
-                </button>
-
-                <button type="button" class="cancel-button" id="cancelVehicleForm">
-                    Cancel
-                </button>
+            <div class="form-group">
+                <label for="vehicleModel">Model</label>
+                <input type="text" id="vehicleModel">
+                <span class="error-message" id="modelError"></span>
             </div>
 
-        </form>
-    </div>
+            <div class="form-group">
+                <label for="vehicleYear">Year</label>
+                <input type="number" id="vehicleYear">
+                <span class="error-message" id="yearError"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="vehicleMileage">Mileage</label>
+                <input type="number" id="vehicleMileage">
+                <span class="error-message" id="mileageError"></span>
+            </div>
+        </div>
+
+        <button type="submit" id="vehicleSubmitButton">Add Vehicle</button>
+        <button type="button" id="cancelVehicleForm">Cancel</button>
+    </form>
+</div>
 
     <!-- Dynamically Generated Vehicle Cards -->
     <div class="vehicle-grid" id="vehicleList">

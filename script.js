@@ -29,34 +29,64 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
 vehicleForm.addEventListener("submit", function (event) {
     event.preventDefault();
-
+    clearVehicleErrors();
     // Get values from the form
+    const id = document.getElementById("vehicleID").value.trim();
     const make = document.getElementById("vehicleMake").value.trim();
     const model = document.getElementById("vehicleModel").value.trim();
     const year = Number(document.getElementById("vehicleYear").value);
     const mileage = Number(document.getElementById("vehicleMileage").value);
-
+    let valid = true;
     // Basic validation
     const currentYear = new Date().getFullYear();
 
-    if (!make || !model || !Number.isInteger(year) ||
-        year < 1886 || year > currentYear + 1 ||
-        !Number.isInteger(mileage) || mileage < 0) {
-        alert("Please enter valid vehicle information.");
-        return;
+    if (make === "") {
+        showVehicleError("makeError", "Make is required.");
+        valid = false;
     }
 
-    // Create vehicle object
-    const vehicle = {
-        id: Date.now(),
-        make: make,
-        model: model,
-        year: year,
-        mileage: mileage
-    };
+    // Validate model
+    if (model === "") {
+        showVehicleError("modelError", "Model is required.");
+        valid = false;
+    }
 
-    // Add vehicle to array
-    vehicles.push(vehicle);
+    // Validate year
+    if (!Number.isInteger(year) || year < 1886 ||
+        year > new Date().getFullYear() + 1) {
+        showVehicleError("yearError", "Enter a valid vehicle year.");
+        valid = false;
+    }
+
+    // Validate mileage
+    if (!Number.isInteger(mileage) || mileage < 0) {
+        showVehicleError("mileageError", "Mileage must be a non-negative integer.");
+        valid = false;
+    }
+
+    if (!valid) return;
+
+    if (id) {
+        const vehicle= vehicles.find(v => v.id === Number(id));
+        if (vehicle) {
+            vehicle.make = make;
+            vehicle.model = model;
+            vehicle.year = year;
+            vehicle.mileage = mileage;
+        }
+        displayVehicles();
+    }
+    else {
+        const vehicle = {
+            id: Date.now(),
+            make: make,
+            model: model,
+            year: year,
+            mileage: mileage
+        };
+        // Add vehicle to array
+        vehicles.push(vehicle);
+    };
     document.getElementById("totalVehicles").textContent = vehicles.length;
 
     // Update vehicle display
@@ -116,17 +146,28 @@ function displayVehicles() {
         info.appendChild(mileageInfo);
 
         const actions = document.createElement("div");
-        actions.className = "vehicle-card-actions";
+actions.classList.add("vehicle-card-actions");
 
-        const deleteButton = document.createElement("button");
-        deleteButton.className = "delete-vehicle";
-        deleteButton.textContent = "Delete";
+const editButton = document.createElement("button");
+editButton.textContent = "Edit";
+editButton.classList.add("edit-vehicle");
 
-        deleteButton.addEventListener("click", function () {
-            deleteVehicle(vehicle.id);
-        });
+editButton.addEventListener("click", () => {
+    editVehicle(vehicle.id);
+});
 
-        actions.appendChild(deleteButton);
+const deleteButton = document.createElement("button");
+deleteButton.textContent = "Delete";
+deleteButton.classList.add("delete-vehicle");
+
+deleteButton.addEventListener("click", () => {
+    deleteVehicle(vehicle.id);
+});
+
+actions.appendChild(editButton);
+actions.appendChild(deleteButton);
+
+card.appendChild(actions);
 
         details.append(
             status,
@@ -474,3 +515,66 @@ function updateCostDisplays() {
 document.addEventListener("DOMContentLoaded", function () {
     updateCostDisplays();
 });
+function editVehicle(id) {
+    const vehicle = vehicles.find(v => v.id === id);
+
+    if (!vehicle) return;
+
+    // Fill form with existing vehicle information
+    document.getElementById("vehicleID").value = vehicle.id;
+    vehicleMake.value = vehicle.make;
+    vehicleModel.value = vehicle.model;
+    vehicleYear.value = vehicle.year;
+    vehicleMileage.value = vehicle.mileage;
+
+    // Change form appearance
+    document.getElementById("vehicleFormTitle").textContent = "Edit Vehicle";
+    document.getElementById("vehicleSubmitButton").textContent = "Save Changes";
+
+    // Show form
+    vehicleFormContainer.style.display = "block";
+
+    // Scroll to form
+    vehicleFormContainer.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+function resetVehicleForm() {
+    vehicleForm.reset();
+
+    document.getElementById("vehicleID").value = "";
+
+    document.getElementById("vehicleFormTitle").textContent = "Add Vehicle";
+    document.getElementById("vehicleSubmitButton").textContent = "Add Vehicle";
+
+    clearVehicleErrors();
+
+    vehicleFormContainer.style.display = "none";
+}
+function clearVehicleErrors() {
+    const errorIDs = [
+        "makeError",
+        "modelError",
+        "yearError",
+        "mileageError"
+    ];
+
+    const inputIDs = [
+        "vehicleMake",
+        "vehicleModel",
+        "vehicleYear",
+        "vehicleMileage"
+    ];
+
+    errorIDs.forEach(function (id) {
+        document.getElementById(id).textContent = "";
+    });
+
+    inputIDs.forEach(function (id) {
+        const input = document.getElementById(id);
+        input.classList.remove("invalid");
+        input.classList.remove("valid");
+    });
+}

@@ -902,4 +902,26 @@ tbody tr:last-child td {
         grid-template-columns: 1fr;
     }
 }
+.edit-vehicle {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
+.edit-vehicle:hover {
+    background-color: #1d4ed8;
+}
+
+.vehicle-card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.edit-vehicle,
+.delete-vehicle {
+    flex: 1;
+}

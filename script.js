@@ -346,6 +346,7 @@ maintenanceForm.addEventListener("submit", function (event) {
 
     // Refresh maintenance history
     displayMaintenanceRecords();
+    updateCostDisplays();
 
     // Reset and hide form
     maintenanceForm.reset();
@@ -442,6 +443,34 @@ function clearMaintenanceErrors() {
 }
 
 // Initial setup
-populateVehicleDropdown();
-displayMaintenanceRecords();
+document.addEventListener("DOMContentLoaded", function () {
+    populateVehicleDropdown();
+    displayMaintenanceRecords();
+});
 
+function costTracker(records = maintenanceRecords) {
+    const totalCost = records.reduce(function (sum, record) {
+        return sum + record.cost;
+    }, 0);
+    return Number(totalCost.toFixed(2));
+}
+// connect Cost Tracker to displays
+function updateCostDisplays() {
+    document.getElementById("expenseDashboard").textContent = costTracker().toLocaleString(
+        "en-US",
+        {
+            style: "currency",
+            currency: "USD"
+        }
+    );
+    document.getElementById("expenseSummary").textContent = costTracker().toLocaleString(
+        "en-US",
+        {
+            style: "currency",
+            currency: "USD"
+        }
+    );
+};
+document.addEventListener("DOMContentLoaded", function () {
+    updateCostDisplays();
+});

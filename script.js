@@ -1,4 +1,4 @@
-
+let vehicles =[];
 // Get HTML elements
 document.addEventListener("DOMContentLoaded", function () {
     const vehicleForm = document.getElementById("vehicleForm");
@@ -7,9 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const emptyVehicles = document.getElementById("emptyVehicles");
     const showVehicleForm = document.getElementById("showVehicleForm");
     const cancelVehicleForm = document.getElementById("cancelVehicleForm");
+    document.getElementById("totalVehicles").textContent = vehicles.length;
 }); 
-// Store vehicles in an array
-let vehicles = [];
 
 // Show the vehicle form
 document.addEventListener("DOMContentLoaded", function () {
@@ -58,6 +57,7 @@ vehicleForm.addEventListener("submit", function (event) {
 
     // Add vehicle to array
     vehicles.push(vehicle);
+    document.getElementById("totalVehicles").textContent = vehicles.length;
 
     // Update vehicle display
     displayVehicles();
@@ -149,7 +149,7 @@ function deleteVehicle(vehicleID) {
     vehicles = vehicles.filter(function (vehicle) {
         return vehicle.id !== vehicleID;
     });
-
+    document.getElementById("totalVehicles").textContent = vehicles.length;
     displayVehicles();
 }
 
